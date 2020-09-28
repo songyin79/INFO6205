@@ -54,13 +54,17 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
      */
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
-
-        for (int i=from; i<to; i++) {
-            for (int j=i; j>from && ((Comparable) xs[j]).compareTo(xs[j-1]) < 0 ; j--) {
-                helper.swap(xs, j, j-1);
+        
+        for (int i = from; i < to; i++) {
+            for (int k = i; k > from; k--) {
+                if (helper.compare(xs[k-1] ,xs[k]) > 0) {
+                    helper.swap(xs, k-1, k);
+                } 
+                else break;
             }
         }
-       
+        
+              
     }
 
     /**
