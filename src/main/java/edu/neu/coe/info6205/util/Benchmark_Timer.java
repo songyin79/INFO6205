@@ -31,11 +31,14 @@ import static edu.neu.coe.info6205.util.Utilities.formatWhole;
  */
 
 /*
- * Benchmark_Timer, as the name implies, implements Benchmark and does so by employing an instance of Timer. The full constructor takes four parameters. These are explained in the javadoc (use ctrl/J in IDEA):
+ * Benchmark_Timer, as the name implies, implements Benchmark and does so by employing an instance of Timer. 
+ * The full constructor takes four parameters. These are explained in the javadoc (use ctrl/J in IDEA):
 description is just a String to identify this Benchmark;
 fPre is a function which will take a T and return a T. Activity in fPre is not timed.
-fRun is always required and is the function that you want to time. It takes as input the result of running fPre or the result of invoking the Supplier function that is passed to the timer (if fPre is not defined).
-fPost is a function that you can use, for example, to test that fRun worked correctly (it takes the output from fRun as its input).
+fRun is always required and is the function that you want to time. It takes as input 
+the result of running fPre or the result of invoking the Supplier function that is passed to the timer (if fPre is not defined).
+fPost is a function that you can use, for example, to test that fRun worked correctly 
+(it takes the output from fRun as its input).
 
  */
 public class Benchmark_Timer<T> implements Benchmark<T> {
