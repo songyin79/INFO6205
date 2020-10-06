@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class UF_Driver {
 	
-	public static int uf_helper(int n) {
+	public static int count(int n) {
 		UF_HWQUPC u = new UF_HWQUPC(n, false);
 		
 		Random random = new Random();
@@ -29,7 +29,7 @@ public class UF_Driver {
 
 			int total = 0;
 			for (int jk = 0; jk < runs; jk++) {
-				total = total + uf_helper(i);
+				total = total + count(i);
 			}
 
 			count++;
