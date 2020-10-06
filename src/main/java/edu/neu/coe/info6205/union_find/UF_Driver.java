@@ -1,5 +1,8 @@
 package edu.neu.coe.info6205.union_find;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class UF_Driver {
@@ -24,7 +27,10 @@ public class UF_Driver {
 		int runs = 100;
 		double c = 0; //coefficient
 		int count = 0;
-
+		List<String[]> dataLines = new ArrayList<>();
+		String[] s = {"n","m","r", "c"};
+		dataLines.add(s);
+		
 		for (int i = 100; i < 30000; i += 100) {
 
 			int total = 0;
@@ -33,12 +39,24 @@ public class UF_Driver {
 			}
 
 			count++;
-			double logFactor = Math.log(i) * i;
-			c += (total / runs) / logFactor;
-			System.out.println("n = " + i + ", pairs = " + total / runs + ", run = " + runs);
-			System.out.println("n = " + i + ", m = " + total / runs + ", c = " + ((total / runs) / logFactor) + "\n");
+			c += (total / runs) / (Math.log(i) * i);
+			String n = Integer.toString(i);
+			String m = Double.toString(total / runs);
+			String r = Integer.toString(runs);
+			String coe = Double.toString((total / runs) / (Math.log(i) * i));
+			System.out.println("n = " + n + ", m = " + m + ", run = " + r + ", c = " + coe);
+			String[] l  = {n,m,r,coe};
+			dataLines.add(l);
+			
 		}
 
+		FileWriter f = new FileWriter("assignment3_output.csv");
+		try {
+			f.toCSV(dataLines);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Avg(c) = " + (c / count));
 
 	}
