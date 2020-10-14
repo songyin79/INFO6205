@@ -1,18 +1,13 @@
-/*
- * Copyright (c) 2017. Phasmid Software
- */
+
 package edu.neu.coe.info6205.union_find_assignment4;
 
 import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import edu.neu.coe.info6205.util.Benchmark_Timer;
 
 /**
  * Weighted Quick Union with Path Compression
  */
-public class WQUPC {
-    private final int[] parent;   // parent[i] = parent of i
+public class WQUPC_Simpler {
+    public final int[] parent;   // parent[i] = parent of i
     private final int[] size;   // size[i] = size of subtree rooted at i
     private int count;  // number of components
 
@@ -24,7 +19,7 @@ public class WQUPC {
      * @param n the number of sites
      * @throws IllegalArgumentException if {@code n < 0}
      */
-    public WQUPC(int n) {
+    public WQUPC_Simpler(int n) {
         count = n;
         parent = new int[n];
         size = new int[n];
@@ -56,18 +51,15 @@ public class WQUPC {
      * @return the component identifier for the component containing site {@code p}
      * @throws IllegalArgumentException unless {@code 0 <= p < n}
      */
+    
     public int find(int p) {
         validate(p);
-        int root = p;
-        while (root != parent[root]) {
-            root = parent[root];
+        while (p != parent[p])
+        {
+        	parent[p] = parent[parent[p]];
+        	p = parent[p];
         }
-        while (p != root) {
-            int newp = parent[p];
-            parent[p] = root;
-            p = newp;
-        }
-        return root;
+        return p;
     }
 
     // validate that p is a valid index
@@ -116,9 +108,10 @@ public class WQUPC {
         count--;
     }
 
+    
   //assignment4 
-    public static WQUPC count(int n) {
-    	WQUPC h = new WQUPC(n);
+    public static WQUPC_Simpler count(int n) {
+    	WQUPC_Simpler h = new WQUPC_Simpler(n);
     	Random ran = new Random();
     	while (h.count > 1) {
     		int p = ran.nextInt(n);
@@ -127,40 +120,7 @@ public class WQUPC {
                 h.union(p, q);
 			}
 		}
+    	
     	return h;
-	}
-    
-    public static void main(String[] args) {
-		int[] num = {20000, 40000, 80000, 160000, 320000, 640000, 1280000, 2560000};
-		for (int i = 0; i < num.length; i++) {
-			int temp = num[i];
-	    	Supplier<Integer> n1 = () -> temp;
-			Consumer<Integer> fun1 = (t) -> {WQUPC_Simpler.count(t);};
-			Benchmark_Timer<Integer> BenchmarkTimer1 = new Benchmark_Timer<Integer>("WQUPC_Simpler", fun1, null);
-	    	final double result1 = BenchmarkTimer1.runFromSupplier(n1, 100);
-	    	System.out.println("(WQUPC_Simpler:" + num[i] + "):" + result1);
-	    	
-			Supplier<Integer> n2 = () -> temp;
-			Consumer<Integer> fun2 = (t) -> {WQUPC.count(t);};
-			Benchmark_Timer<Integer> BenchmarkTimer2 = new Benchmark_Timer<Integer>("WQUPC", null, fun2, null);
-	    	final double result2 = BenchmarkTimer2.runFromSupplier(n2, 100);
-	    	System.out.println("(WQUPC:"  + num[i] + "):" + result2);
-	    	
-	    	Supplier<Integer> n3 = () -> temp;
-			Consumer<Integer> fun3 = (t) -> {WQU_SIZE.count(t);};
-			Benchmark_Timer<Integer> BenchmarkTimer3 = new Benchmark_Timer<Integer>("WQU_SIZE", null, fun3, null);
-	    	final double result3 = BenchmarkTimer3.runFromSupplier(n3, 100);
-	    	System.out.println("(WQU_SIZE:"  + num[i] + "):" + result3);
-	    	
-	    	Supplier<Integer> n4 = () -> temp;
-			Consumer<Integer> fun4 = (t) -> {WQU_DEPTH.count(t);};
-			Benchmark_Timer<Integer> BenchmarkTimer4 = new Benchmark_Timer<Integer>("WQU_DEPTH", null, fun4, null);
-	    	final double result4 = BenchmarkTimer4.runFromSupplier(n4, 100);
-	    	System.out.println("(WQU_DEPTH:"  + num[i] + "):" + result4);
-	    	System.out.println();
-		}
-		
-    		
-	}
-		
+	}	
 }
